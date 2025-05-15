@@ -2,7 +2,7 @@ import { Stack, useRouter } from "expo-router";
 import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import { UserProvider } from "../contexts/UserContext"; // Import UserProvider
+import { UserProvider } from "../contexts/UserContext";
 import { OrderProvider } from "@/contexts/OrderContext";
 
 SplashScreen.preventAutoHideAsync();
@@ -11,8 +11,15 @@ export default function RootLayout() {
   const router = useRouter();
 
   useEffect(() => {
-    SplashScreen.hideAsync();
-    router.replace("/(tabs)/(home)");
+    const hideSplashAndNavigate = async () => {
+      SplashScreen.hideAsync();
+
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate a delay for splash screen
+
+      router.replace("/(tabs)/(home)");
+    };
+
+    hideSplashAndNavigate();
   }, []);
 
   return (
